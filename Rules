@@ -1,0 +1,133 @@
+#!/usr/bin/env ruby
+
+# A few helpful tips about the Rules file:
+#
+# * The string given to #compile and #route are matching patterns for
+#   identifiers--not for paths. Therefore, you can’t match on extension.
+#
+# * The order of rules is important: for each item, only the first matching
+#   rule is applied.
+#
+# * Item identifiers start and end with a slash (e.g. “/about/” for the file
+#   “content/about.html”). To select all children, grandchildren, … of an
+#   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
+#   because “*” matches zero or more characters.
+
+# Do nothing to /sass/, to ignore any partials
+compile '/sass/*/' do
+end
+
+route '/sass/*/' do
+  item.identifier.chop + '.' + item[:extension]
+end
+
+# Create main.css from main.scss
+compile '/sass/main/', :rep => :css do
+  filter :sass, syntax: :scss
+end
+
+route '/sass/main/', :rep => :css do
+  '/css/main.css'
+end
+
+# Also create a minified main.min.css
+compile '/sass/main/', :rep => :minified do
+  filter :sass, syntax: :scss
+  filter :rainpress
+end
+
+route '/sass/main/', :rep => :minified do
+  '/css/main.min.css'
+end
+
+# Move raw js files
+compile '/js/*' do
+end
+
+route '/js/*/' do
+  item.identifier.chop + '.' + item[:extension]
+end
+
+# Minify all js
+## But ignore /vendor/ folder
+compile '/js/vendor/*/', :rep => :minified do
+end
+
+route '/js/vendor/*/', :rep => :minified do
+end
+
+compile '/js/*/', :rep => :minified do
+  filter :yui_compressor, :type => :js
+end
+
+route '/js/*/', :rep => :minified do
+  item.identifier.chop + '.min.' + item[:extension]
+end
+
+# Move raw images.  This probably isn't necessary since they're binary?
+compile '/img/*/' do
+end
+
+route '/img/*/' do
+  item.identifier.chop + '.' + item[:extension]
+end
+
+# Do nothing to humans.txt, robots.txt
+compile '/humans/' do
+end
+
+route '/humans/' do
+  '/humans.txt'
+end
+
+compile '/robots/' do
+end
+
+route '/robots/' do
+  '/robots.txt'
+end
+
+# Compile but do not subdirectory 404.html
+compile '/404/' do
+  filter :erb
+  layout 'default'
+  filter :rubypants
+  filter :relativize_paths, :type => :html
+end
+
+route '/404/' do
+  '/404.html'
+end
+
+# And finally deal with our html pages
+compile '*' do
+  if item.binary?
+    # don’t filter binary items
+  else
+    # this seems to work fine.
+    case item[:extension]
+    when 'html'
+      filter :erb
+    when 'md'
+      filter :kramdown
+    else
+
+    end
+    layout 'default'
+    filter :rubypants
+    filter :relativize_paths, :type => :html
+  end
+end
+
+
+route '*' do
+  if item.binary?
+    # Write item with identifier /foo/ to /foo.ext
+    item.identifier.chop + '.' + item[:extension]
+  else
+    # Write item with identifier /foo/ to /foo/index.html
+    item.identifier + 'index.html'
+  end
+end
+
+layout '*', :erb
