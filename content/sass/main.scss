@@ -140,6 +140,12 @@ h1 {
   margin: 0;
 }
 
+h2 {
+  color: $red;
+  font-size: 1.2em;
+  margin: 0;
+}
+
 /* Layout Styles */
 %constraint {
   max-width: 822px;
@@ -364,6 +370,12 @@ footer {
     top: 0;
   }
 }
+.contract-button {
+  @extend .expand-button;
+  &:after {
+    content: "-";
+  }
+}
 
 .move-button {
   @extend .expand-button;
@@ -555,6 +567,13 @@ $home-tile-gut: 10px;
       text-decoration: underline;
     }
   }
+}
+
+.movie-module {
+  background-color: $white;
+  padding: 1em;
+  position: relative;
+  margin: 5px 10px;
 }
 
 /* ==========================================================================
