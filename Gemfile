@@ -8,3 +8,4 @@ gem 'rainpress'
 gem 'rubypants'
 gem 'sass'
 gem 'yuicompressor'
+gem "mime-types"
