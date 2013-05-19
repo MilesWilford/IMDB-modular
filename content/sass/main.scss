@@ -90,6 +90,7 @@ $dark-blue: #1e2439;
 $darkest-blue: #11141f;
 $red: #b2152b;
 $white: #FFF;
+$grey: #DDD;
 
 /* Base Styles */
 html, a {
@@ -122,10 +123,21 @@ nav {
   }
 }
 
+dt {
+  float: left;
+  font-weight: bold;
+  &:after {
+    content: ":";
+  }
+}
+dd {
+  margin-left: 4.5em;
+}
+
 h1 {
   color: $red;
   font-size: 1.2em;
-  margin: 0.4em;
+  margin: 0;
 }
 
 /* Layout Styles */
@@ -328,11 +340,11 @@ footer {
   height: 31px;
   &:after {
     content: "▶";
-    font-size: 20px;
+    font-size: 30px;
+    line-height: 30px;
     position: absolute;
-      top: 2px;
-      left: 10px;
-    z-index: 100;
+      bottom: 0;
+      left: 5px;
   }
   &:active {
     @include yellow-button(true);
@@ -341,10 +353,52 @@ footer {
     visibility: hidden;
   }
 }
+.expand-button {
+  @extend .play-button;
+  position: relative;
+    right: 0;
+    bottom: 0;
+  &:after {
+    content: "+";
+    left: 7px;
+    top: 0;
+  }
+}
+
+.move-button {
+  @extend .expand-button;
+  cursor: move;
+  &:after {
+    content: " ";
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    background-image: url('../img/move.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+}
+.controls {
+  position: absolute;
+    top: 0;
+    right: 0;
+  padding: 5px;
+}
 .spoilers {
   text-transform: capitalize;
   color: $red;
 }
+
+
+.more {
+  font-size: 0.7em;
+  text-align: center;
+  &:after {
+    content: " >>";
+  }
+}
+
 $home-tile-dim: 198px;
 $home-tile-gut: 10px;
 
@@ -421,13 +475,6 @@ $home-tile-gut: 10px;
     color: $darkest-blue;
     font-size: 0.8em;
   }
-  .more {
-    font-size: 0.7em;
-    text-align: center;
-    &:after {
-      content: " >>";
-    }
-  }
 }
 
 .movie-flag {
@@ -448,6 +495,65 @@ $home-tile-gut: 10px;
   .title {
     color: $red;
     font-size: 0.8em;
+  }
+}
+
+.movie-page {
+  img {
+    height: 100%;
+  }
+  a {
+    display: inline;
+    &:before { content: "("; }
+    &:after { content: ")"; }
+    font-size: 0.9em;
+  }
+  .poster {
+    min-width: 191px;
+    padding-right: 2em;
+  }
+  .info {
+    position: relative;
+    padding: 10px;
+    height: 271px;
+    vertical-align: top;
+    background-color: $white;
+    &:after {
+      content: " ";
+      display: block;
+      height: 11px;
+      width: 6px;
+      background-color: transparent;
+      background-image: url('/img/nav_triangle_white_left.png');
+      position: absolute;
+        top: 40px;
+        left: -6px;
+    }
+  }
+}
+
+.rating {
+  font-size: 2em;
+  margin: 0;
+  .stars-earned, .stars-unearned {
+    font-size: 52px;
+    line-height: 0;
+    position: relative;
+      top: 16px;
+  }
+  .stars-unearned, .total {
+    color: $grey;
+    &:after {
+      content: " ";
+    }
+  }
+  a {
+    text-decoration: none;
+    display: block;
+    float: right;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
