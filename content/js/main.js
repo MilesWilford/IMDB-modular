@@ -20,4 +20,11 @@ $(document).ready(function() {
             $(this).html(starCount);
         });
     })();
+    (function() {
+        // Activate expand buttons
+        $('.expand-button').click(function() {
+            var $module = $(this).parent().parent();
+            $module.find('.minimize').slideToggle();
+        });
+    })();
 });
