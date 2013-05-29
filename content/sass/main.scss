@@ -1,4 +1,4 @@
-//@import "normalize.min";
+@import "normalize.min";
 
 /* ==========================================================================
    HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
@@ -163,9 +163,17 @@ button {
   cursor: pointer;
 }
 
+input {
+  border: 2px $white solid;
+  @include transition(0.5s);
+  &:focus {
+    border-color: $dark-blue;
+  }
+}
+
 /* Layout Styles */
 %constraint {
-  max-width: 822px;
+  width: 822px;
   margin: 0 auto;
 }
 
@@ -187,6 +195,7 @@ header {
 .m-search {
   display: table;
   float: left;
+  width: 72%;
   p {
     margin: 0;
   }
@@ -194,7 +203,7 @@ header {
     display: table-cell;
   }
   input[type="search"] {
-    width: 25em;
+    width: 20em;
   }
   .submit {
     text-align: center;
@@ -216,7 +225,6 @@ header {
   position: relative;
   float: right;
   text-align: center;
-  min-width: 15em;
   li:nth-child(n+2):before {
     content: "|";
   }
@@ -235,8 +243,8 @@ header {
        -moz-box-sizing: border-box;
             box-sizing: border-box;
     position: absolute;
-      left: 1em;
-      right: 0;
+      left: -25%;
+      right: -25%;
     padding: 1em;
     display: none;
     input {
