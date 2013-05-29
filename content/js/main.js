@@ -13,10 +13,7 @@ $(document).ready(function() {
             for (var i = rating; i <= 10; i++) {
                 starCount += "*";
             }
-            starCount += '</span>'
-                + '<span class="stars-numerical">' + rating
-                + '<span class="total">/10</span></span>'
-                + '<a href="#">Rating Info</a>';
+            starCount += '</span>' + '<span class="stars-numerical">' + rating + '<span class="total">/10</span></span>' + '<a href="#">Rating Info</a>';
             $(this).html(starCount);
         });
     })();
@@ -25,6 +22,37 @@ $(document).ready(function() {
         $('.expand-button').click(function() {
             var $module = $(this).parent().parent();
             $module.find('.minimize').slideToggle();
+        });
+    })();
+    (function() {
+        var draggedElement = null;
+        // Handle movie-module drag events
+        $('.movie-module').each(function() {
+            $(this).bind('dragstart', function(e) {
+                $(this).addClass('dragging');
+                draggedElement = this;
+                var eventDataTransfer = e.originalEvent.dataTransfer;
+                eventDataTransfer.effectAllowed = 'move';
+                eventDataTransfer.setData('text/html', this.innerHTML);
+            }).bind('dragenter dragleave', function() {
+                $(this).toggleClass('dragover');
+            }).bind('dragover', function(e) {
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+            }).bind('drop', function(e) {
+                $(this).removeClass('dragging dragover');
+                if (e.stopPropegation) {
+                    e.stopPropegation();
+                }
+                if (draggedElement != this) {
+                    draggedElement.innerHTML = this.innerHTML;
+                    this.innerHTML = e.originalEvent.dataTransfer.getData('text/html');
+                }
+                return false;
+            }).bind('dragend', function() {
+                $(this).removeClass('dragging');
+            });
         });
     })();
 });

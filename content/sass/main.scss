@@ -141,6 +141,7 @@ dt {
   font-weight: bold;
   &:after {
     content: ":";
+    margin-left: -0.3em;
   }
 }
 dd {
@@ -561,7 +562,7 @@ $home-tile-gut: 10px;
   }
   .poster {
     min-width: 191px;
-    padding-right: 2em;
+    padding-right: 12px;
   }
   .info {
     position: relative;
@@ -582,6 +583,7 @@ $home-tile-gut: 10px;
         left: -20px;
     }
   }
+
 }
 
 .rating {
@@ -613,7 +615,7 @@ $home-tile-gut: 10px;
   background-color: $white;
   padding: 1em;
   position: relative;
-  margin: 5px 10px;
+  margin: 5px 10px 20px 10px;
   &:before {
     content: " ";
     display: block;
@@ -645,6 +647,20 @@ $home-tile-gut: 10px;
     @include flipX;
     top: 0;
     left: 0;
+  }
+}
+
+/* States */
+.dragging {
+  opacity: 0.4;
+}
+
+.dragover {
+  @include transition(0.15s, border, ease-in);
+  border: 5px $dark-blue dashed;
+  @include border-radius(5px, 5px, 5px, 5px);
+  &:before {
+    border: 0;
   }
 }
 
